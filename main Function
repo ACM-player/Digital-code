@@ -1,0 +1,36 @@
+%这是我们第一题的主程序
+disp('这是我们的初始区间');
+disp([0.1,pi/2]);
+disp('若我们给定常数n=1使，则u的近似解就为[5.9898,0]。');
+epsilon=input('我们设定的残差的相对误差=');
+x0=input('给定的初始点(由于U0，Un已知，所以是n-1维的向量)=');
+disp('用Newton迭代法计算n=10,k=1,rho=0，求得的u的近似向量为：');
+y=First_problem(10,x0,epsilon,1,0);
+disp(y);
+%%  检验部分
+x=0.1:(pi/2-0.1)/10:pi/2;
+plot(x,y,'o');
+hold on
+z=@(x)log((1+cos(x))/(1-cos(x)));
+fplot(z,[0.1 pi/2]);
+title('精确解得到的函数图和NewTon法得到的点图');
+
+
+
+
+
+
+%第二题的主程序
+n=input('我们给定的常数为');
+disp('代入我们第一题的程序，还需给定精度');
+epsilon=input('tolerance=');
+x0=zeros(1,n-1);%初始点
+y=First_problem(n,x0',epsilon,1,0);
+disp(y);
+%% 检验部分
+x=0.1:(pi/2-0.1)/n:pi/2;
+plot(x,y,'o');
+hold on
+z=@(x)log((1+cos(x))/(1-cos(x)));
+fplot(z,[0.1 pi/2]);
+title('精确解得到的函数图和NewTon法得到的点图');
