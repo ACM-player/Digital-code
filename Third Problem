@@ -1,0 +1,26 @@
+%第三题的主程序，本程序判断在解的雅可比矩阵是否非奇异
+kk=ones(1,1023);
+u0=exact(0.1);
+k=1;
+rho=0;
+for n=3:1024
+    h=(pi/2-0.1)/n;
+    u=sym('u',[1,n-1]);
+    u(n)=0;
+    y=sym('y',[1 n-1]);
+    y(1)=-u0+2*u(1)-u(2)+h^2*k^2*sinh(u(1))-h^2*rho^2;
+    e=ones(n,1);
+    A=spdiags([-e 2*e -e],-1:1,n,n);
+    for j=2:n-1
+        y(j)=A(j,j-1)*u(j-1)+A(j,j)*u(j)+A(j,j+1)*u(j+1)+h^2*k^2*sinh(u(j))-h^2*rho^2;
+    end
+    v=ones(1,n-1);
+    for i=1:n-1
+        v(i)=exact(0.1+i*h);
+    end
+    B=jacobian(y,u(1:n-1));
+    B1=vpa(subs(B,u(1:n-1),v));
+    if det(B1)==0%行列式等于零，说明奇异
+        kk(n-1)=0;
+    end
+end
